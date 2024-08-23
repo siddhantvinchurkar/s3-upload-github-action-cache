@@ -78,13 +78,13 @@ const uploadFile = (fileName) => {
 	} else {
 		const fileContent = fs.readFileSync(fileName);
 		const mimeType = mimes.get(
-			path.normalize(fileName).replace("public/cache/metadata/", "latest/metadata").split(".").pop(),
+			path.normalize(fileName).replace("public/cache/metadata/", "latest/metadata/").split(".").pop(),
 		);
 
 		// Setting up S3 upload parameters
 		const params = {
 			Bucket: process.env.S3_BUCKET,
-			Key: `${process.env.S3_PREFIX || ""}${path.normalize(fileName).replace("public/cache/metadata/", "latest/metadata")}`,
+			Key: `${process.env.S3_PREFIX || ""}${path.normalize(fileName).replace("public/cache/metadata/", "latest/metadata/")}`,
 			Body: fileContent,
 			ContentType: mimeType,
 			CacheControl: "no-cache no-store must-revalidate",
