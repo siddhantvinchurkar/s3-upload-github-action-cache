@@ -77,18 +77,18 @@ const uploadFile = (fileName) => {
 		});
 	} else {
 		const fileContent = fs.readFileSync(fileName);
-		const mimeType = mimes.get(
-			path.normalize(fileName).replace("public/cache/metadata/", "latest/metadata/").split(".").pop(),
-		);
+		const mimeType = mimes.get(path.normalize(fileName).replace("public/cache/", "latest/").split(".").pop());
+		const dispositionName = path.normalize(fileName).replace("public/cache/", "latest/").split("/").pop();
 
 		// Setting up S3 upload parameters
 		const params = {
 			Bucket: process.env.S3_BUCKET,
-			Key: `${process.env.S3_PREFIX || ""}${path.normalize(fileName).replace("public/cache/metadata/", "latest/metadata/")}`,
+			Key: `${process.env.S3_PREFIX || ""}${path.normalize(fileName).replace("public/cache/", "latest/")}`,
 			Body: fileContent,
 			ContentType: mimeType,
 			CacheControl: "no-cache no-store must-revalidate",
 			ContentLanguage: "en-IN",
+			ContentDisposition: 'attachment; filename="' + dispositionName + '"',
 		};
 		const acl = process.env.S3_ACL;
 		if (acl) {
