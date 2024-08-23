@@ -89,7 +89,6 @@ const uploadFile = (fileName) => {
 			ContentType: mimeType,
 			CacheControl: "no-cache no-store must-revalidate",
 			ContentLanguage: "en-IN",
-			Expires: "0",
 		};
 		const acl = process.env.S3_ACL;
 		if (acl) {
